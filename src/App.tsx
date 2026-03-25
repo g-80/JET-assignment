@@ -6,37 +6,47 @@ import RestaurantCard from './RestaurantCard'
 function App() {
   const [restaurantsList, setRestaurantsList] = useState<Restaurant[]>([])
   const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
 
   const NUM_RESULTS_DISPLAYED = 10;
   const POSTCODE = "W55JY"
 
   async function getRestaurantsDataByPostcode(postcode: string): Promise<void>
   {
-    const res = await fetch(RESTAURANTS_ENDPOINT + postcode);
-    if (!res.ok)
-    {
-      setError("The Api returned an error");
-      return;
-    }
-    const jsonBody = await res.json();
-    const data = jsonBody["restaurants"].slice(0, NUM_RESULTS_DISPLAYED).map((restaurant: any): Restaurant => ({
-      name: restaurant.name,
-      rating: restaurant.rating.starRating,
-      cuisines: restaurant.cuisines.map((cuisine: any): string => cuisine.name),
-      address: { 
-        firstLine: restaurant.address.firstLine, 
-        city: restaurant.address.city, 
-        postalCode: restaurant.address.postalCode, 
-        location: {
-          type: restaurant.address.location.type,
-          coordinates: [ 
-            restaurant.address.location.coordinates[0],
-            restaurant.address.location.coordinates[1]
-          ]
-        }
+    setIsLoading(true);
+    setError("");
+    try {
+      const res = await fetch(RESTAURANTS_ENDPOINT + postcode);
+      if (!res.ok) {
+        setError("The API returned an error");
+        return;
       }
-    }))
-    setRestaurantsList(data);
+
+      const jsonBody = await res.json();
+      const data = jsonBody["restaurants"].slice(0, NUM_RESULTS_DISPLAYED).map((restaurant: any): Restaurant => ({
+        name: restaurant.name,
+        rating: restaurant.rating.starRating,
+        cuisines: restaurant.cuisines.map((cuisine: any): string => cuisine.name),
+        address: {
+          firstLine: restaurant.address.firstLine,
+          city: restaurant.address.city,
+          postalCode: restaurant.address.postalCode,
+          location: {
+            type: restaurant.address.location.type,
+            coordinates: [
+              restaurant.address.location.coordinates[0],
+              restaurant.address.location.coordinates[1]
+            ]
+          }
+        }
+      }));
+
+      setRestaurantsList(data);
+    } catch (err) {
+      setError("A network error occurred. Please check your connection.");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
 
@@ -54,7 +64,7 @@ function App() {
       </section>
       <section>
         <p>Current selected postcode: {POSTCODE}</p>
-        <button onClick={async () => await getRestaurantsDataByPostcode(POSTCODE)}>Display restaurants</button>
+        {!isLoading && <button onClick={async () => await getRestaurantsDataByPostcode(POSTCODE)}>Display restaurants</button>}
       </section>
     </>
   )

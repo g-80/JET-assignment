@@ -1,29 +1,10 @@
-import { useState } from 'react'
-import { RESTAURANTS_ENDPOINT } from './consts'
+import { useCallback, useState } from 'react'
+import { RESTAURANTS_ENDPOINT, NUM_RESULTS_DISPLAYED, POSTCODE } from './consts'
 import type { Restaurant } from './types'
 import RestaurantCard from './RestaurantCard'
 
-function App() {
-  const [restaurantsList, setRestaurantsList] = useState<Restaurant[]>([])
-  const [error, setError] = useState("")
-  const [isLoading, setIsLoading] = useState(false);
-
-  const NUM_RESULTS_DISPLAYED = 10;
-  const POSTCODE = "W55JY"
-
-  async function getRestaurantsDataByPostcode(postcode: string): Promise<void>
-  {
-    setIsLoading(true);
-    setError("");
-    try {
-      const res = await fetch(RESTAURANTS_ENDPOINT + postcode);
-      if (!res.ok) {
-        setError("The API returned an error");
-        return;
-      }
-
-      const jsonBody = await res.json();
-      const data = jsonBody["restaurants"].slice(0, NUM_RESULTS_DISPLAYED).map((restaurant: any): Restaurant => ({
+function mapRestaurant(restaurant: any): Restaurant {
+      return {
         name: restaurant.name,
         rating: restaurant.rating.starRating,
         cuisines: restaurant.cuisines.map((cuisine: any): string => cuisine.name),
@@ -39,15 +20,37 @@ function App() {
             ]
           }
         }
-      }));
+      }
+}
 
-      setRestaurantsList(data);
+function App() {
+  const [restaurantsList, setRestaurantsList] = useState<Restaurant[]>([])
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getRestaurantsDataByPostcode = useCallback(async (postcode: string): Promise<void> =>
+  {
+    setIsLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch(RESTAURANTS_ENDPOINT + postcode);
+      if (!res.ok) {
+        setError("The API returned an error");
+        return;
+      }
+
+      const jsonBody = await res.json();
+      const selectedRestaurants = jsonBody["restaurants"].slice(0, NUM_RESULTS_DISPLAYED)
+      const restaurantsData = selectedRestaurants.map(mapRestaurant);
+
+      setRestaurantsList(restaurantsData);
     } catch (err) {
-      setError("A network error occurred. Please check your connection.");
+      setError((err as Error).message);
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [])
 
 
   return (
@@ -59,7 +62,7 @@ function App() {
       <section>
         {error && <p>{error}</p>}
         {!error && <ul>
-          {restaurantsList.map((restaurant, i) => (<RestaurantCard key={i} data={restaurant} />))}
+          {restaurantsList.map((restaurant) => (<RestaurantCard key={restaurant.name + restaurant.address.postalCode} data={restaurant} />))}
         </ul>}
       </section>
       <section>

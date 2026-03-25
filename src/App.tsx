@@ -1,26 +1,23 @@
 import { useCallback, useState } from 'react'
 import { RESTAURANTS_ENDPOINT, NUM_RESULTS_DISPLAYED, POSTCODE } from './consts'
-import type { Restaurant } from './types'
+import type { Restaurant, RestaurantDto } from './types'
 import RestaurantCard from './RestaurantCard'
 
-function mapRestaurant(restaurant: any): Restaurant {
-      return {
-        name: restaurant.name,
-        rating: restaurant.rating.starRating,
-        cuisines: restaurant.cuisines.map((cuisine: any): string => cuisine.name),
-        address: {
-          firstLine: restaurant.address.firstLine,
-          city: restaurant.address.city,
-          postalCode: restaurant.address.postalCode,
-          location: {
-            type: restaurant.address.location.type,
-            coordinates: [
-              restaurant.address.location.coordinates[0],
-              restaurant.address.location.coordinates[1]
-            ]
-          }
-        }
+function mapRestaurant(restaurant: RestaurantDto): Restaurant {
+  return {
+    name: restaurant.name,
+    rating: restaurant.rating.starRating,
+    cuisines: restaurant.cuisines.map(cuisine => cuisine.name),
+    address: {
+      firstLine: restaurant.address.firstLine,
+      city: restaurant.address.city,
+      postalCode: restaurant.address.postalCode,
+      location: {
+        type: restaurant.address.location.type,
+        coordinates: restaurant.address.location.coordinates
       }
+    }
+  }
 }
 
 function App() {
@@ -41,7 +38,7 @@ function App() {
       }
 
       const jsonBody = await res.json();
-      const selectedRestaurants = jsonBody["restaurants"].slice(0, NUM_RESULTS_DISPLAYED)
+      const selectedRestaurants: RestaurantDto[] = jsonBody["restaurants"].slice(0, NUM_RESULTS_DISPLAYED)
       const restaurantsData = selectedRestaurants.map(mapRestaurant);
 
       setRestaurantsList(restaurantsData);

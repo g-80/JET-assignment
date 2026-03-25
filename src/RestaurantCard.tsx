@@ -1,13 +1,13 @@
 import type { Restaurant } from "./types";
-
+import "./RestaurantCard.css"
 function RestaurantCard({data} : {data: Restaurant})
 {
     return (
-        <li>
+        <li className="restaurant-card">
             <h4>{data.name}</h4>
-            <p>Rating: {data.rating}</p>
-            <p>Cuisines: {data.cuisines}</p>
-            <p>Address: {data.address.firstLine}, {data.address.city}, {data.address.postalCode}</p>
+            <p><b>Rating: </b>{data.rating}</p>
+            <p><b>Cuisines: </b>{data.cuisines.join(", ")}</p>
+            <p><b>Address: </b>{data.address.firstLine}, {data.address.city}, {data.address.postalCode}</p>
         </li>
     )
 }

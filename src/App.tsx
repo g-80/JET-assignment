@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './App.css'
 import { RESTAURANTS_ENDPOINT } from './consts'
 import type { Restaurant } from './types'
 import RestaurantCard from './RestaurantCard'
@@ -49,9 +48,9 @@ function App() {
       </section>
       <section>
         {error && <p>{error}</p>}
-        <ul>
+        {!error && <ul>
           {restaurantsList.map((restaurant, i) => (<RestaurantCard key={i} data={restaurant} />))}
-        </ul>
+        </ul>}
       </section>
       <section>
         <p>Current selected postcode: {POSTCODE}</p>
@@ -62,11 +61,3 @@ function App() {
 }
 
 export default App
-
-// TODO
-// button to fetch with
-// function of fetching
-//    default 10 restaurants to display
-//    filter retrieved data
-// error
-// field? to edit postcode if needed

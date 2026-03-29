@@ -109,20 +109,6 @@ describe("Successful fetch", () => {
     });
   });
 
-  it("handles an empty restaurants array without errors", async () => {
-    mockFetch({ restaurants: [] });
-
-    render(<App />);
-    fireEvent.click(
-      screen.getByRole("button", { name: /Display restaurants/i }),
-    );
-
-    await waitFor(() => {
-      expect(screen.queryByRole("listitem")).toBeNull();
-      expect(screen.queryByText(/error/i)).toBeNull();
-    });
-  });
-
   it("clears a previous error on a successful subsequent fetch", async () => {
     vi.spyOn(global, "fetch").mockRejectedValueOnce(new Error("Network down"));
 

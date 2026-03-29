@@ -2,24 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { vi, describe, expect, it, afterEach } from "vitest";
 import App from "../App";
 import { NUM_RESULTS_DISPLAYED, POSTCODE } from "../consts";
-
-function makeRestaurantDto(overrides: Record<string, unknown> = {}) {
-  return {
-    name: "Test Restaurant",
-    rating: { starRating: 4.5 },
-    cuisines: [{ name: "Italian" }, { name: "Pizza" }],
-    address: {
-      firstLine: "1 Test Street",
-      city: "London",
-      postalCode: "W1A 1AA",
-      location: {
-        type: "Point",
-        coordinates: [-0.1, 51.5] as [number, number],
-      },
-    },
-    ...overrides,
-  };
-}
+import { makeRestaurantDto } from "./testUtils";
 
 function mockFetch(body: unknown, ok = true, status = 200) {
   return vi.spyOn(global, "fetch").mockResolvedValue({

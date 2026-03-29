@@ -7,7 +7,7 @@ import {
 import type { Restaurant, RestaurantDto } from "./types";
 import RestaurantCard from "./RestaurantCard";
 
-function mapRestaurant(restaurant: RestaurantDto): Restaurant {
+export function mapRestaurant(restaurant: RestaurantDto): Restaurant {
   return {
     name: restaurant.name,
     rating: restaurant.rating.starRating,

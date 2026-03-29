@@ -60,6 +60,7 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  padding: 0 24px;
 }
 
 body {
@@ -112,4 +113,53 @@ code {
 
 ul {
   list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+button {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+button:hover {
+  opacity: 0.85;
+}
+
+.error {
+  color: #d43131;
+}
+
+section {
+  padding: 16px 0;
+}
+
+section:not(:last-child) {
+  border-bottom: 1px solid var(--border);
+}
+
+section p {
+  color: var(--text);
+  font-size: 16px;
+}
+
+.restaurants-list {
+  padding: 24px 0;
+}
+
+.input-section {
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }

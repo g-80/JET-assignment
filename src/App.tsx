@@ -61,10 +61,10 @@ function App() {
     <>
       <section>
         <h1>JET Restaurants By Postcode</h1>
-        <p>Display summarised restaurants data in a postcode</p>
+        <p>Display summarised data of restaurants in a postcode</p>
       </section>
-      <section>
-        {error && <p>{error}</p>}
+      <section className="restaurants-list">
+        {error && <p className="error">{error}</p>}
         {!error && (
           <ul>
             {restaurantsList.map((restaurant) => (
@@ -76,7 +76,7 @@ function App() {
           </ul>
         )}
       </section>
-      <section>
+      <section className="input-section ">
         <p>Current selected postcode: {POSTCODE}</p>
         {!isLoading && (
           <button

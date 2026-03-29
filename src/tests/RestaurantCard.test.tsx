@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it } from "vitest";
 import RestaurantCard from "../RestaurantCard";
 import type { Restaurant } from "../types";
 
@@ -37,7 +37,7 @@ describe("RestaurantCard", () => {
   it("renders the full address", () => {
     render(<RestaurantCard data={mockRestaurant} />);
     expect(
-      screen.getByText("123 High Street, London, W1A 1AA")
+      screen.getByText("123 High Street, London, W1A 1AA"),
     ).toBeInTheDocument();
   });
 
@@ -45,7 +45,7 @@ describe("RestaurantCard", () => {
     render(
       <ul>
         <RestaurantCard data={mockRestaurant} />
-      </ul>
+      </ul>,
     );
     expect(screen.getByRole("listitem")).toBeInTheDocument();
   });

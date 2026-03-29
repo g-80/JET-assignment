@@ -1,5 +1,12 @@
 # JET Restaurant Postcode Assessment
 
+**Stack:** React with Vite and TypeScript. Vite provides fast dev server startup and hot module replacement. TypeScript adds static typing which helps model the API response structure clearly via interfaces and DTOs. 
+
+
+**Architecture:** The app is structured around a single App component managing fetch state, with a presentational RestaurantCard component for display. API response types are separated into DTOs with a dedicated mapping function to decouple the external API shape from the internal data model.
+
+**Tests:** Unit tests cover the `App` and `RestaurantCard` components rendering and fetch behaviour and the mapping functionality of the API response to the data model.
+
 ## Prerequisites
 
 - Node.js v20

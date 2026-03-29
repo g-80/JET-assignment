@@ -1,73 +1,40 @@
-# React + TypeScript + Vite
+# JET Restaurant Postcode Assessment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Prerequisites
 
-Currently, two official plugins are available:
+- Node.js v20
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Install
 
-## React Compiler
+run `npm install` to install the required `node_modules` for the project.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Run
 
-## Expanding the ESLint configuration
+`npm run dev`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Then open http://localhost:5173 in your browser.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+**Important**: You need to install a browser extension that will let you bypass the restriction on the missing CORS header _'Access-Control-Allow-Origin'_ from the server response. The response will not be handled correctly without it. I used the extension CORS Everywhere on Firefox.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Test
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+`npm test` to run the tests.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Build
+`npm run build` to build the project.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Improvements
+- Add a HTML input field for user postcode entry
+- Improve UI
+- Add filters to allow the user to select desired data, e.g. `cuisine: italian, rating: 4 stars and over, ...`
+- Display a map with the results as pins
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Assumptions
+- The address of a restaurant can be displayed as a string on a single line
+- The cuisines of a restaurant can be displayed as a string on a single line
+- There is no requirement to handle errors
+- There is no requirement to perform retries if HTTP request failed
+- There is no requirement to send the request automatically on page load
+- The API is always available and does not require authentication or API keys
+- Restaurants only need to be displayed as a list without sorting, filtering, or searching
+- The location coordinates in the address do not need to be displayed
